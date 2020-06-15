@@ -1,0 +1,22 @@
+input NoteInput {
+    boardId: ID!
+    content: String
+    likes: Int
+    dislikes: Int
+    reply: String
+    color: String
+}
+type Note {
+    id: ID!
+    boardId: ID!
+    content: String
+    likes: Int
+    dislikes: Int
+    reply: String
+    color: String
+}
+input getNotesByBoardIdInput {
+    boardId: ID!
+    skip: Int
+    limit: Int
+}

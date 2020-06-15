@@ -1,0 +1,11 @@
+node_modules
+data
+# ignore brigade-test/brigade.js as it is temporarily copied during test run
+brigade-test/brigade.js
+brigade-test/node_modules
+build
+.env
+coverage/
+test-report.xml
+package-lock.json
+yarn.lock

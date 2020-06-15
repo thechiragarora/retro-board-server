@@ -1,0 +1,23 @@
+input BoardInput {
+  name: String!
+  columns: [String]!
+}
+enum BoardStatus {
+  active
+  locked
+  archived
+}
+type Column {
+  name: String
+  id: String
+}
+type Board {
+  id: ID
+  name: String
+  status: BoardStatus
+  columns: [Column]
+}
+input getBoardInput {
+  id: ID
+  name: String
+}

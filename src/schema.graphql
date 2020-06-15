@@ -1,0 +1,13 @@
+type Query {
+  getBoard(input: getBoardInput): Board
+  getNotesByBoardId(input: getNotesByBoardIdInput): [Note]
+}
+
+type Mutation {
+  createBoard(input: BoardInput): Board
+  createNote(input: NoteInput): Note
+}
+
+# type Subscription {
+# 	homesAdded: postOutput
+# }

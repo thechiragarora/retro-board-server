@@ -31,6 +31,10 @@ const boardSchema = new Schema({
     default: 'active',
     required: true,
   },
+  type: {
+    type: String,
+    enum: ['custom', 'template'],
+  },
 }, {
   collection: 'Boards',
   timestamps: true,

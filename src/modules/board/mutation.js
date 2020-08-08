@@ -3,10 +3,13 @@ import { dbService } from '../../services';
 
 const Mutation = {
   createBoard: async (_, { input }) => {
-    const { name, columns } = input;
+    const { name, columns, type } = input;
     let columnData = [...columns];
     columnData = columnData.map(column => ({ name: column }));
-    const result = await dbService.create({ collection: Board, data: { name, columns: columnData } });
+    const result = await dbService.create({
+      collection: Board,
+      data: { name, columns: columnData, type },
+    });
     // TODO: Response handling
     return result;
   },

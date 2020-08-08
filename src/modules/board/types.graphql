@@ -1,11 +1,16 @@
 input BoardInput {
   name: String!
   columns: [String]!
+  type: BoardType!
 }
 enum BoardStatus {
   active
   locked
   archived
+}
+enum BoardType {
+  custom
+  template
 }
 type Column {
   name: String
@@ -16,6 +21,7 @@ type Board {
   name: String
   status: BoardStatus
   columns: [Column]
+  type: BoardType
 }
 input getBoardInput {
   id: ID

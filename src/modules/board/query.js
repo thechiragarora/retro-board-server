@@ -7,6 +7,11 @@ const Query = {
     // TODO: Response handling
     return result;
   },
+  getBoards: async (_, { input }) => {
+    const result = await dbService.find({ collection: Board, data: { ...input } });
+    // TODO: Response handling
+    return result;
+  },
 };
 
 export default Query;

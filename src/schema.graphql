@@ -1,5 +1,6 @@
 type Query {
   getBoard(input: getBoardInput): Board
+  getBoards(id: String!): Board
   getNotesByBoardId(input: getNotesByBoardIdInput): [Note]
 }
 

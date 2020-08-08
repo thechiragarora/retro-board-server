@@ -1,4 +1,4 @@
-import Board from '../../model/collection';
+import { Board } from '../../model/collection';
 import { dbService } from '../../services';
 
 const Query = {

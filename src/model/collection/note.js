@@ -9,7 +9,7 @@ const noteSchema = new Schema({
     type: String,
     unique: true,
   },
-  boardId: {
+  columnId: {
     type: String,
     required: true,
   },
@@ -33,6 +33,11 @@ const noteSchema = new Schema({
   },
   color: {
     type: String,
+    required: false,
+  },
+  user: {
+    type: String,
+    default: 'Anonymous',
     required: false,
   },
 }, {

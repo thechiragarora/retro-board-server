@@ -1,7 +1,7 @@
 type Query {
   getBoard(input: getBoardInput): Board
   getBoards: [Board]
-  getNotesByBoardId(input: getNotesByBoardIdInput): [Note]
+  getNotesByBoardId(id: ID): [BoardColumnNote]
 }
 
 type Mutation {

@@ -14,7 +14,7 @@ enum BoardType {
 }
 type Column {
   name: String
-  id: String
+  id: ID
 }
 type Board {
   id: ID

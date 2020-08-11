@@ -1,5 +1,5 @@
 input NoteInput {
-    boardId: ID!
+    columnId: ID!
     content: String
     likes: Int
     dislikes: Int
@@ -8,15 +8,20 @@ input NoteInput {
 }
 type Note {
     id: ID!
-    boardId: ID!
+    columnId: ID!
     content: String
     likes: Int
     dislikes: Int
     reply: String
     color: String
 }
-input getNotesByBoardIdInput {
-    boardId: ID!
-    skip: Int
-    limit: Int
+type ColumnNote {
+    id: ID
+    name: String
+    notes: [Note]
+}
+type BoardColumnNote {
+  id: ID
+  name: String
+  columns: [ColumnNote]
 }

@@ -73,6 +73,14 @@ class DBOperation {
     }
   }
 
+
+  aggregate = async ({collection, pipeline}) => {
+    try {
+      return await collection.aggregate(pipeline);
+    } catch (err) {
+      return { error: err.message };
+    }
+  }
 }
 
 export default new DBOperation();

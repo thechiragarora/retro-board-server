@@ -65,15 +65,6 @@ class DBOperation {
     }
   }
 
-  updateOne = async ({collection, filter, dataToUpdate}) => {
-    try {
-      return await collection.updateOne(filter, { $set: dataToUpdate });
-    } catch (err) {
-      return { error: err.message };
-    }
-  }
-
-
   aggregate = async ({collection, pipeline}) => {
     try {
       return await collection.aggregate(pipeline);

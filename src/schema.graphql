@@ -7,6 +7,7 @@ type Query {
 type Mutation {
   createBoard(input: BoardInput): Board
   createNote(input: NoteInput): Note
+  updateNote(input: InputNote): String
 }
 
 # type Subscription {

@@ -9,8 +9,11 @@ type Mutation {
   createNote(input: NoteInput): Note
   updateNote(input: InputNote): String
   deleteNote(id: ID!): String
+  deleteBoard(id: ID!): String
 }
 
-# type Subscription {
-# 	homesAdded: postOutput
-# }
+type Subscription {
+	notesUpdated(columnId: ID!): Note
+  noteCreated(columnId: ID!): Note
+  boardCreated: Board!
+}

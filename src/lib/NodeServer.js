@@ -40,33 +40,34 @@ export default class Server {
    * @returns -Instance of Current Object
    */
   async run() {
-    const { port, env } = this.config;
+    const { port } = this.config;
     try {
       await db.open();
       console.log('Db connected successfully');
-      await this.app.listen(port, () => {
-        console.info(`server started on port ${port} (${env})`); // eslint-disable-line no-console
+      await this.httpServer.listen(port, () => {
+        console.log(`🚀 Server ready at http://localhost:${port}${this.server.graphqlPath}`)
+        console.log(`🚀 Subscriptions ready at ws://localhost:${port}${this.server.subscriptionsPath}`);
       });
     } catch (err) {
       console.warn(err);
     }
     return this;
   }
-
+  
   async setupApollo(data, typeDefs) {
     const { app } = this;
 
     this.server = new ApolloServer({
       ...data,
       typeDefs,
-      context: ({ req }) => ({
-        request: req,
-      }),
+      // context: ({ req }) => ({
+      //   request: req,
+      // }),
       onHealthCheck: () => new Promise((resolve) => {
         resolve('I am OK');
       }),
     });
-
+    
     this.server.applyMiddleware({ app });
     this.httpServer = createServer(app);
     this.server.installSubscriptionHandlers(this.httpServer);

@@ -31,6 +31,15 @@ class DBOperation {
     }
   }
 
+  // Note: use findOneAndUpdate only when require updated data in return, else use updateOne which is faster one.
+  findOneAndUpdate = async ({ collection, dataToUpdate, criteria }) => {
+    try {
+      return await collection.findOneAndUpdate(criteria, dataToUpdate, { new: true, useFindAndModify: false });
+    } catch (err) {
+      return { error: err.message };
+    }
+  }
+
   updateMany = async ({ collection, dataToUpdate, criteria }) => {
     try {
       return await collection.updateMany(criteria, { $set: dataToUpdate });

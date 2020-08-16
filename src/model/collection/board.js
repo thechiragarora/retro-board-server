@@ -38,6 +38,7 @@ const boardSchema = new Schema({
 }, {
   collection: 'Boards',
   timestamps: true,
+  versionKey: false,
 });
 
 // boardSchema pre save hook

@@ -43,6 +43,7 @@ const noteSchema = new Schema({
 }, {
   collection: 'Notes',
   timestamps: true,
+  versionKey: false,
 });
 
 // noteSchema pre save hook

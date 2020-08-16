@@ -1,8 +1,10 @@
 import { Board } from '../../model/collection';
 import { dbService } from '../../services';
+import { pubsub, boardCreated } from '../../subscriptions';
 
 const Mutation = {
   createBoard: async (_, { input }) => {
+    console.log(':::::::::::::createBoard:::::::::Request', input);
     const { name, columns, type } = input;
     let columnData = [...columns];
     columnData = columnData.map(column => ({ name: column }));
@@ -10,8 +12,21 @@ const Mutation = {
       collection: Board,
       data: { name, columns: columnData, type },
     });
+    pubsub.publish(boardCreated, { boardCreated: result });
+    console.log(':::::::::::::createBoard:::::::::Response', result);
     // TODO: Response handling
     return result;
+  },
+  deleteBoard: async (_, { id }) => {
+    console.log('::::::::::::::::::::deleteBoard:::::::::Request', id);
+    const result = await dbService.deleteOne({
+      collection: Board, data: { id },
+    });
+    console.log('::::::::::::::::deleteBoard:::::::::::::Response', result);
+    const { n } = result;
+    if (n) {
+      return 'Board deleted successfully';
+    }
   },
 };
 

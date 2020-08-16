@@ -19,6 +19,17 @@ const Mutation = {
       return 'Note updated successfully';
     }
   },
+  deleteNote: async (_, {id}) => {
+    console.log('::::::::::::::::::::deleteNote:::::::::Request', id, typeof id);
+    const result = await dbService.deleteOne({
+      collection: Note, data: { id }
+    });
+    console.log('::::::::::::::::deleteNote:::::::::::::Response', result);
+    const { n } = result
+    if (n) {
+      return 'Note deleted successfully';
+    }
+  }
 };
 
 export default Mutation;

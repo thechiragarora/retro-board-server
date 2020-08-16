@@ -8,6 +8,7 @@ type Mutation {
   createBoard(input: BoardInput): Board
   createNote(input: NoteInput): Note
   updateNote(input: InputNote): String
+  deleteNote(id: ID!): String
 }
 
 # type Subscription {

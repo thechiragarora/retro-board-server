@@ -1,6 +1,6 @@
 import { Note } from '../../model/collection';
 import { dbService } from '../../services';
-import { pubsub, notesUpdated, noteCreated } from '../../subscriptions';
+import { pubsub, notesUpdated, noteCreated, noteDeleted } from '../../subscriptions';
 
 const Mutation = {
   createNote: async (_, { input }) => {
@@ -27,9 +27,10 @@ const Mutation = {
   },
   deleteNote: async (_, { id }) => {
     console.log('::::::::::::::::::::deleteNote:::::::::Request', id);
-    const result = await dbService.deleteOne({
+    const result = await dbService.findOneAndRemove({
       collection: Note, data: { id },
     });
+    pubsub.publish(noteDeleted, { noteDeleted: result });
     console.log('::::::::::::::::deleteNote:::::::::::::Response', result);
     const { n } = result;
     if (n) {

@@ -16,4 +16,5 @@ type Subscription {
 	notesUpdated: Note
   noteCreated: Note
   boardCreated: Board!
+  noteDeleted: Note!
 }

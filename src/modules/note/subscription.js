@@ -1,4 +1,4 @@
-import { pubsub, notesUpdated, noteCreated } from '../../subscriptions';
+import { pubsub, notesUpdated, noteCreated, noteDeleted } from '../../subscriptions';
 
 export default {
   notesUpdated: {
@@ -6,5 +6,8 @@ export default {
   },
   noteCreated: {
     subscribe: () => pubsub.asyncIterator(noteCreated),
+  },
+  noteDeleted: {
+    subscribe: () => pubsub.asyncIterator(noteDeleted),
   },
 };

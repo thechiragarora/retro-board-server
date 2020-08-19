@@ -12,6 +12,12 @@ const Mutation = {
     // TODO: Response handling
     return result;
   },
+  // createNoteComment: async (_, { input }) => {
+  //   console.log('::::::::::::::createNoteComment::::::::::::Request', input)
+  //   const result = await dbService.create({ collection: Note, data: { ...input } });
+  //   // TODO: Response handling
+  //   return result;
+  // },
   updateNote: async (_, { input }) => {
     console.log('::::::::::::::updateNote::::::::::::Request', input);
     const { id, ...rest } = input;

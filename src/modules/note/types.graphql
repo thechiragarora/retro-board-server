@@ -3,7 +3,6 @@ input NoteInput {
     content: String
     likes: Int
     dislikes: Int
-    reply: String
     color: String
 }
 type Note {
@@ -12,9 +11,9 @@ type Note {
     content: String
     likes: Int
     dislikes: Int
-    reply: String
     color: String
     user: String
+    comments: [Comment]
 }
 input InputNote {
     id: ID!
@@ -22,10 +21,10 @@ input InputNote {
     content: String
     likes: Int
     dislikes: Int
-    reply: String
     color: String
     user: String
 }
+
 type ColumnNote {
     id: ID
     name: String

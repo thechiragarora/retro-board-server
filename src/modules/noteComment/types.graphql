@@ -1,0 +1,29 @@
+
+input CommentInput {
+  noteId: ID!
+  columnId: ID!
+  content: String
+  user: String
+  likes: Int
+  dislikes: Int
+  color: String
+}
+type Comment {
+  id: ID!
+  noteId: ID!
+  columnId: ID!
+  content: String
+  user: String
+  likes: Int
+  dislikes: Int
+  color: String
+}
+
+input InputComment {
+    id: ID!
+    content: String
+    likes: Int
+    dislikes: Int
+    color: String
+    user: String
+}

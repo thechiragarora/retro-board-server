@@ -18,6 +18,17 @@ const Query = {
         },
       },
       {
+        $unwind: '$columns.notes',
+      },
+      {
+        $lookup: {
+          from: 'NoteComment',
+          localField: 'columns.notes.id',
+          foreignField: 'noteId',
+          as: 'columns.notes.comments',
+        },
+      },
+      {
         $group: {
           _id: '$id',
           columns: { $push: '$columns' },

@@ -1,12 +1,15 @@
 type Query {
   getBoard(input: getBoardInput): Board
   getBoards: [Board]
+  getNoteComment(id: ID): Comment
+  getNoteComments: [Comment]
   getNotesByBoardId(id: ID): BoardColumnNote
 }
 
 type Mutation {
   createBoard(input: BoardInput): Board
   createNote(input: NoteInput): Note
+  createNoteComment(input: CommentInput): Comment
   updateNote(input: InputNote): String
   deleteNote(id: ID!): String
   deleteBoard(id: ID!): String

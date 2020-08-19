@@ -4,10 +4,14 @@ const {
   Schema,
 } = mongoose;
 
-const noteSchema = new Schema({
+const commentSchema = new Schema({
   id: {
     type: String,
     unique: true,
+  },
+  noteId: {
+    type: String,
+    required: true,
   },
   columnId: {
     type: String,
@@ -37,17 +41,16 @@ const noteSchema = new Schema({
     required: false,
   },
 }, {
-  collection: 'Notes',
+  collection: 'NoteComment',
   timestamps: true,
-  versionKey: false,
 });
 
-// noteSchema pre save hook
-noteSchema.pre('save', function preSave() {
-  const note = this;
-  note.id = note._id.toString();
+// commentSchema pre save hook
+commentSchema.pre('save', function preSave() {
+  const comment = this;
+  comment.id = comment._id.toString();
 });
 
-const Note = mongoose.model('Note', noteSchema);
+const NoteComment = mongoose.model('NoteComment', commentSchema);
 
-export default Note;
+export default NoteComment;

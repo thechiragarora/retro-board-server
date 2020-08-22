@@ -7,7 +7,7 @@ import Express from 'express';
 import helmet from 'helmet';
 import methodOverride from 'method-override';
 import { ApolloServer } from 'apollo-server-express';
-import db from '../db';
+import db from '../config/db';
 
 export default class Server {
   constructor(config) {

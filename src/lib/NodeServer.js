@@ -8,10 +8,9 @@ import helmet from 'helmet';
 import methodOverride from 'method-override';
 import { ApolloServer } from 'apollo-server-express';
 import passport from 'passport';
-import db from '../db';
 import router from '../config/routes';
 import passportCongif from '../config/passport';
-
+import db from '../config/db';
 
 export default class Server {
   constructor(config) {

@@ -7,7 +7,11 @@ import Express from 'express';
 import helmet from 'helmet';
 import methodOverride from 'method-override';
 import { ApolloServer } from 'apollo-server-express';
+import passport from 'passport';
 import db from '../db';
+import router from '../config/routes';
+import passportCongif from '../config/passport';
+
 
 export default class Server {
   constructor(config) {
@@ -25,12 +29,14 @@ export default class Server {
    * @returns -Instance of Current Object
    */
   bootstrap() {
+    this._initBodyParser();
     this._initHelmet();
     this._initCompress();
     this._initCookieParser();
     this._initCors();
     this._initJsonParser();
     this._initMethodOverride();
+    this._initPassport();
 
     return this;
   }
@@ -45,7 +51,7 @@ export default class Server {
       await db.open();
       console.log('Db connected successfully');
       await this.httpServer.listen(port, () => {
-        console.log(`🚀 Server ready at http://localhost:${port}${this.server.graphqlPath}`)
+        console.log(`🚀 Server ready at http://localhost:${port}${this.server.graphqlPath}`);
         console.log(`🚀 Subscriptions ready at ws://localhost:${port}${this.server.subscriptionsPath}`);
       });
     } catch (err) {
@@ -53,7 +59,7 @@ export default class Server {
     }
     return this;
   }
-  
+
   async setupApollo(data, typeDefs) {
     const { app } = this;
 
@@ -67,7 +73,20 @@ export default class Server {
         resolve('I am OK');
       }),
     });
-    
+    this.app.use('/auth', router);
+    this.app.use('/graphql', (req, res, next) => {
+      passport.authenticate('login', { session: false }, (err, user, info) => {
+        if (err) {
+          console.error(err);
+          res.status(401).send(info.message); // handle error message
+        }
+        if (info !== undefined) {
+          console.error(info.message);
+          res.status(403).send(info.message);
+        }
+        next();
+      })(req, res, next);
+    });
     this.server.applyMiddleware({ app });
     this.httpServer = createServer(app);
     this.server.installSubscriptionHandlers(this.httpServer);
@@ -118,5 +137,15 @@ export default class Server {
    */
   _initMethodOverride() {
     this.app.use(methodOverride());
+  }
+
+  _initBodyParser() {
+    this.app.use(bodyParser.urlencoded({
+      extended: true,
+    }));
+  }
+
+  _initPassport() {
+    this.app.use(passport.initialize());
   }
 }

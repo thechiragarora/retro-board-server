@@ -1,9 +1,14 @@
+import { ApolloError } from 'apollo-server-express';
 import { Board } from '../../model/collection';
 import { dbService } from '../../services';
 import { pubsub, boardCreated } from '../../subscriptions';
 
 const Mutation = {
-  createBoard: async (_, { input }) => {
+  createBoard: async (_, { input }, req) => {
+    // handle latter format of req.request
+    if (!req.request.isAuth) {
+      throw new ApolloError('User is not Authorized');
+    }
     console.log(':::::::::::::createBoard:::::::::Request', input);
     const { name, columns, type } = input;
     let columnData = [...columns];
@@ -17,7 +22,11 @@ const Mutation = {
     // TODO: Response handling
     return result;
   },
-  deleteBoard: async (_, { id }) => {
+  deleteBoard: async (_, { id }, req) => {
+    // handle latter format of req.request
+    if (!req.request.isAuth) {
+      throw new ApolloError('User is not Authorized');
+    }
     console.log('::::::::::::::::::::deleteBoard:::::::::Request', id);
     const result = await dbService.deleteOne({
       collection: Board, data: { id },

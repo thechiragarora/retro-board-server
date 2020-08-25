@@ -8,9 +8,8 @@ import helmet from 'helmet';
 import methodOverride from 'method-override';
 import { ApolloServer } from 'apollo-server-express';
 import passport from 'passport';
-import router from '../config/routes';
-import passportCongif from '../config/passport';
 import db from '../config/db';
+import authMiddleWare from './authMiddleWare';
 
 export default class Server {
   constructor(config) {
@@ -28,7 +27,6 @@ export default class Server {
    * @returns -Instance of Current Object
    */
   bootstrap() {
-    this._initBodyParser();
     this._initHelmet();
     this._initCompress();
     this._initCookieParser();
@@ -65,27 +63,14 @@ export default class Server {
     this.server = new ApolloServer({
       ...data,
       typeDefs,
-      // context: ({ req }) => ({
-      //   request: req,
-      // }),
+      context: ({ req }) => ({
+        request: req,
+      }),
       onHealthCheck: () => new Promise((resolve) => {
         resolve('I am OK');
       }),
     });
-    this.app.use('/auth', router);
-    this.app.use('/graphql', (req, res, next) => {
-      passport.authenticate('login', { session: false }, (err, user, info) => {
-        if (err) {
-          console.error(err);
-          res.status(401).send(info.message); // handle error message
-        }
-        if (info !== undefined) {
-          console.error(info.message);
-          res.status(403).send(info.message);
-        }
-        next();
-      })(req, res, next);
-    });
+    this.app.use(authMiddleWare);
     this.server.applyMiddleware({ app });
     this.httpServer = createServer(app);
     this.server.installSubscriptionHandlers(this.httpServer);
@@ -136,12 +121,6 @@ export default class Server {
    */
   _initMethodOverride() {
     this.app.use(methodOverride());
-  }
-
-  _initBodyParser() {
-    this.app.use(bodyParser.urlencoded({
-      extended: true,
-    }));
   }
 
   _initPassport() {

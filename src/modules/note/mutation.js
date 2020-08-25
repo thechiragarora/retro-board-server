@@ -1,9 +1,16 @@
+import { ApolloError } from 'apollo-server-express';
 import { Note } from '../../model/collection';
 import { dbService } from '../../services';
-import { pubsub, notesUpdated, noteCreated, noteDeleted } from '../../subscriptions';
+import {
+  pubsub, notesUpdated, noteCreated, noteDeleted,
+} from '../../subscriptions';
 
 const Mutation = {
-  createNote: async (_, { input }) => {
+  createNote: async (_, { input }, req) => {
+    // handle latter format of req.request
+    if (!req.request.isAuth) {
+      throw new ApolloError('User is not Authorized');
+    }
     console.log('::::::::::::::createNote::::::::::::Request', input);
     const result = await dbService.create({ collection: Note, data: { ...input } });
     console.log('::::::::::::::::createNote:::::::::::::Response', result);
@@ -12,7 +19,11 @@ const Mutation = {
     // TODO: Response handling
     return result;
   },
-  updateNote: async (_, { input }) => {
+  updateNote: async (_, { input }, req) => {
+    // handle latter format of req.request
+    if (!req.request.isAuth) {
+      throw new ApolloError('User is not Authorized');
+    }
     console.log('::::::::::::::updateNote::::::::::::Request', input);
     const { id, ...rest } = input;
     const result = await dbService.findOneAndUpdate({
@@ -25,7 +36,11 @@ const Mutation = {
       return 'Note updated successfully';
     }
   },
-  deleteNote: async (_, { id }) => {
+  deleteNote: async (_, { id }, req) => {
+    // handle latter format of req.request
+    if (!req.request.isAuth) {
+      throw new ApolloError('User is not Authorized');
+    }
     console.log('::::::::::::::::::::deleteNote:::::::::Request', id);
     const result = await dbService.findOneAndRemove({
       collection: Note, data: { id },

@@ -1,22 +1,22 @@
 import jwtConfig from './jwtConfig';
-import users from './users';
+import { User } from '../model/collection';
+import { dbService } from '../services';
 
 const passport = require('passport');
 const passportJWT = require('passport-jwt');
 const JWTstrategy = require('passport-jwt').Strategy;
 
 const { ExtractJwt } = passportJWT;
-const params = {
+const opts = {
   secretOrKey: jwtConfig.jwtSecret,
   jwtFromRequest: ExtractJwt.fromAuthHeaderWithScheme('JWT'),
 };
 
 
-passport.use('login', new JWTstrategy(params, ((payload, done) => {
+passport.use('jwt', new JWTstrategy(opts, async (payload, done) => {
   try {
-    console.log('payload', payload);
-    const user = users.find(userObj => userObj.id === payload.id) || null;
-    console.log('user', user)
+    const { id } = payload;
+    const user = await dbService.findOne({ collection: User, data: { id } });
     if (user) {
       done(null, user);
     } else {
@@ -25,4 +25,4 @@ passport.use('login', new JWTstrategy(params, ((payload, done) => {
   } catch (err) {
     done(err);
   }
-})));
+}));

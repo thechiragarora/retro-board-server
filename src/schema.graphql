@@ -1,7 +1,9 @@
+
 type Query {
   getBoard(input: getBoardInput): Board
   getBoards: [Board]
   getNotesByBoardId(id: ID): BoardColumnNote
+  login: Boolean
 }
 
 type Mutation {
@@ -11,6 +13,7 @@ type Mutation {
   deleteNote(id: ID!): String
   deleteBoard(id: ID!): String
   login(input: UserInput): AuthPayload
+  userLogin(name: String): AuthPayload
 }
 
 type Subscription {

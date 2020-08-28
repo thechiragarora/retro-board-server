@@ -1,3 +1,4 @@
 import dbService from './db';
+import googleService from './google';
 
-export { dbService };
+export { dbService, googleService };

@@ -10,6 +10,8 @@ import { ApolloServer } from 'apollo-server-express';
 import passport from 'passport';
 import db from '../config/db';
 import authMiddleWare from './authMiddleWare';
+import authRoutes from '../config/auth-routes';
+import Google from '../services/google';
 
 export default class Server {
   constructor(config) {
@@ -71,6 +73,8 @@ export default class Server {
       }),
     });
     this.app.use(authMiddleWare);
+    this.app.use('/auth', authRoutes);
+
     this.server.applyMiddleware({ app });
     this.httpServer = createServer(app);
     this.server.installSubscriptionHandlers(this.httpServer);

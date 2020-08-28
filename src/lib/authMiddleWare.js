@@ -7,6 +7,7 @@ import passportCongif from '../config/passport';
 const authMiddleWare = async (req, res, next) => {
   try {
     passport.authenticate('jwt', { session: false }, (err, user, info) => {
+      console.log('innn')
       if (err || info !== undefined) {
         req.isAuth = false;
         next();

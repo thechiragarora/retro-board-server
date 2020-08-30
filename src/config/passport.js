@@ -13,7 +13,6 @@ const opts = {
   secretOrKey: jwtConfig.jwtSecret,
   jwtFromRequest: ExtractJwt.fromAuthHeaderWithScheme('JWT'),
 };
-
 passport.use(
   'jwt',
   new JWTstrategy(opts, async (payload, done) => {
@@ -58,6 +57,7 @@ const strategy = new GoogleStrategy(
           email: profile.emails[0].value,
           password: 'password',
           googleId: id,
+          role: 'user',
         },
       });
     }

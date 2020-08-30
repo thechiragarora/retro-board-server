@@ -19,7 +19,7 @@ const userSchema = new Schema({
   },
   email: {
     type: String,
-    required: true,
+    required: false,
   },
   password: {
     type: String,
@@ -27,7 +27,8 @@ const userSchema = new Schema({
   },
   role: {
     type: String,
-    required: false,
+    enum: ['admin', 'user', 'anonymous'],
+    required: true,
   },
 }, {
   collection: 'Users',

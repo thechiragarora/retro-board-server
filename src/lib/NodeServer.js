@@ -8,10 +8,12 @@ import helmet from 'helmet';
 import methodOverride from 'method-override';
 import { ApolloServer } from 'apollo-server-express';
 import passport from 'passport';
+import { makeExecutableSchema } from 'graphql-tools';
+import { applyMiddleware } from 'graphql-middleware';
 import db from '../config/db';
-import authMiddleWare from './authMiddleWare';
+// import authMiddleWare from './authMiddleWare';
 import authRoutes from '../config/auth-routes';
-import Google from '../services/google';
+import permissions from './permission';
 
 export default class Server {
   constructor(config) {
@@ -60,21 +62,21 @@ export default class Server {
   }
 
   async setupApollo(data, typeDefs) {
+    const middleware = [permissions];
+    const schema = makeExecutableSchema({ typeDefs, ...data });
+    const schemaWithMiddleware = applyMiddleware(schema, ...middleware);
+
     const { app } = this;
-
     this.server = new ApolloServer({
-      ...data,
-      typeDefs,
-      context: ({ req }) => ({
-        request: req,
+      schema: schemaWithMiddleware,
+      context: ({ req, res }) => ({
+        res, req,
       }),
-      onHealthCheck: () => new Promise((resolve) => {
-        resolve('I am OK');
-      }),
+      // onHealthCheck: () => new Promise((resolve) => {
+      //   resolve('I am OK');
+      // }),
     });
-    this.app.use(authMiddleWare);
     this.app.use('/auth', authRoutes);
-
     this.server.applyMiddleware({ app });
     this.httpServer = createServer(app);
     this.server.installSubscriptionHandlers(this.httpServer);

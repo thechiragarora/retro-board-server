@@ -3,11 +3,7 @@ import { Board } from '../../model/collection';
 import { dbService } from '../../services';
 
 const Query = {
-  getNotesByBoardId: async (_, { id }, req) => {
-    // handle latter format of req.request
-    if (!req.request.isAuth) {
-      throw new ApolloError('User is not Authorized');
-    }
+  getNotesByBoardId: async (_, { id }) => {
     console.log('::::::::::::::::;;getNotesByBoardId;::::::::::::::Request', id);
     const pipeline = [
       { $match: { id } },

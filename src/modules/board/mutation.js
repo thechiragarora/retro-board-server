@@ -4,11 +4,7 @@ import { dbService } from '../../services';
 import { pubsub, boardCreated } from '../../subscriptions';
 
 const Mutation = {
-  createBoard: async (_, { input }, req) => {
-    // handle latter format of req.request
-    if (!req.request.isAuth) {
-      throw new ApolloError('User is not Authorized');
-    }
+  createBoard: async (_, { input }) => {
     console.log(':::::::::::::createBoard:::::::::Request', input);
     const { name, columns, type } = input;
     let columnData = [...columns];
@@ -22,11 +18,7 @@ const Mutation = {
     // TODO: Response handling
     return result;
   },
-  deleteBoard: async (_, { id }, req) => {
-    // handle latter format of req.request
-    if (!req.request.isAuth) {
-      throw new ApolloError('User is not Authorized');
-    }
+  deleteBoard: async (_, { id }) => {
     console.log('::::::::::::::::::::deleteBoard:::::::::Request', id);
     const result = await dbService.deleteOne({
       collection: Board, data: { id },

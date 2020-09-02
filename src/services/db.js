@@ -73,7 +73,7 @@ class DBOperation {
       return { error: err.message };
     }
   }
-  
+
   findOneAndRemove = async ({collection, data}) => {
     try {
       return await collection.findOneAndRemove(data);

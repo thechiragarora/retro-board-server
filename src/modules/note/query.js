@@ -3,7 +3,6 @@ import { dbService } from '../../services';
 
 const Query = {
   getNotesByBoardId: async (_, { id }) => {
-    console.log('::::::::::::::::;;getNotesByBoardId;::::::::::::::Request', id);
     const pipeline = [
       { $match: { id } },
       {
@@ -35,8 +34,6 @@ const Query = {
       },
     ];
     const result = await dbService.aggregate({ collection: Board, pipeline });
-    console.log('::::::::::::::::getNotesByBoardId:::::::::::::::::Response', JSON.stringify(result[0]));
-    // TODO: Response handling
     return result[0];
   },
 };

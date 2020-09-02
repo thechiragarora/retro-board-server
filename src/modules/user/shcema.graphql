@@ -1,0 +1,21 @@
+enum Role {
+  admin
+  user
+  anonymous
+}
+type AuthPayload {
+  token: String
+  user: User
+}
+
+type User {
+  googleId: ID
+  id: ID!
+  name: String
+  email: String
+  role: String
+}
+
+input AnonymousInput {
+  name: String!,
+}

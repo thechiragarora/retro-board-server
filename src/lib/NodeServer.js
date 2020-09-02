@@ -7,7 +7,14 @@ import Express from 'express';
 import helmet from 'helmet';
 import methodOverride from 'method-override';
 import { ApolloServer } from 'apollo-server-express';
+import passport from 'passport';
+import { makeExecutableSchema } from 'graphql-tools';
+import { applyMiddleware } from 'graphql-middleware';
 import db from '../config/db';
+// import authMiddleWare from './authMiddleWare';
+import authRoutes from '../config/auth-routes';
+import permissions from './permission';
+import responseHandler from './responseHandler';
 
 export default class Server {
   constructor(config) {
@@ -31,6 +38,7 @@ export default class Server {
     this._initCors();
     this._initJsonParser();
     this._initMethodOverride();
+    this._initPassport();
 
     return this;
   }
@@ -45,7 +53,7 @@ export default class Server {
       await db.open();
       console.log('Db connected successfully');
       await this.httpServer.listen(port, () => {
-        console.log(`🚀 Server ready at http://localhost:${port}${this.server.graphqlPath}`)
+        console.log(`🚀 Server ready at http://localhost:${port}${this.server.graphqlPath}`);
         console.log(`🚀 Subscriptions ready at ws://localhost:${port}${this.server.subscriptionsPath}`);
       });
     } catch (err) {
@@ -53,21 +61,23 @@ export default class Server {
     }
     return this;
   }
-  
-  async setupApollo(data, typeDefs) {
-    const { app } = this;
 
+  async setupApollo(data, typeDefs) {
+    const middleware = [permissions, responseHandler];
+    const schema = makeExecutableSchema({ typeDefs, ...data });
+    const schemaWithMiddleware = applyMiddleware(schema, ...middleware);
+
+    const { app } = this;
     this.server = new ApolloServer({
-      ...data,
-      typeDefs,
-      // context: ({ req }) => ({
-      //   request: req,
-      // }),
-      onHealthCheck: () => new Promise((resolve) => {
-        resolve('I am OK');
+      schema: schemaWithMiddleware,
+      context: ({ req, res }) => ({
+        res, req,
       }),
+      // onHealthCheck: () => new Promise((resolve) => {
+      //   resolve('I am OK');
+      // }),
     });
-    
+    this.app.use('/auth', authRoutes);
     this.server.applyMiddleware({ app });
     this.httpServer = createServer(app);
     this.server.installSubscriptionHandlers(this.httpServer);
@@ -118,5 +128,9 @@ export default class Server {
    */
   _initMethodOverride() {
     this.app.use(methodOverride());
+  }
+
+  _initPassport() {
+    this.app.use(passport.initialize());
   }
 }

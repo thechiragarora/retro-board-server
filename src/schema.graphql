@@ -1,3 +1,4 @@
+
 type Query {
   getBoard(input: getBoardInput): Board
   getBoards: [Board]
@@ -10,6 +11,8 @@ type Mutation {
   updateNote(input: InputNote): String
   deleteNote(id: ID!): String
   deleteBoard(id: ID!): String
+  AnonymousLogin(input: AnonymousInput): AuthPayload
+  googleLogin: AuthPayload
 }
 
 type Subscription {

@@ -35,9 +35,8 @@ const noteSchema = new Schema({
     type: String,
     required: false,
   },
-  user: {
+  userId: {
     type: String,
-    default: 'Anonymous',
     required: false,
   },
 }, {

@@ -28,12 +28,12 @@ const Mutation = {
     return null; // handle later error case
   },
   googleLogin: async (_, { input }, req) => {
-      const { token, user } = req;
-      return {
-        token,
-        user,
-      };
-    }
+    const { token, user } = req;
+    return {
+      token,
+      user,
+    };
+  },
 };
 
 export default Mutation;

@@ -22,7 +22,9 @@ const authenticate = (req, res) => new Promise((resolve, reject) => {
 const isAuthenticated = rule()(
   async (_, args, { req, res, userCredentials }) => {
     await authenticate(req, res);
-    const isValid = req.isAuth || true;
+    console.log('isValiddddd', req.isAuth)
+    const isValid = req.isAuth;
+    console.log('isValid', isValid)
     return isValid;
   },
 );

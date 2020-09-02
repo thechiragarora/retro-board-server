@@ -11,7 +11,7 @@ type Mutation {
   updateNote(input: InputNote): String
   deleteNote(id: ID!): String
   deleteBoard(id: ID!): String
-  AnonymousLogin(input: AnonymousInput): AuthPayload
+  userLogin(input: UserInput): AuthPayload
   googleLogin: AuthPayload
 }
 

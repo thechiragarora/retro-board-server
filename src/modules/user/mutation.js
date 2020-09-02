@@ -4,7 +4,7 @@ import { dbService } from '../../services';
 import jwtConfig from '../../config/jwtConfig';
 
 const Mutation = {
-  AnonymousLogin: async (_, { input }) => {
+  userLogin: async (_, { input }) => {
     console.log('::::::::::::::createUser::::::::::::Request', input);
     const password = 'password';
     const role = 'anonymous';

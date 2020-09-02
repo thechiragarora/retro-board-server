@@ -16,6 +16,7 @@ type User {
   role: String
 }
 
-input AnonymousInput {
+input UserInput {
   name: String!,
+  email: String!
 }

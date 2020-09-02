@@ -8,7 +8,7 @@ import {
   isUserDeleteNote,
   isAnonymousUpdateNote,
   isAnonymousDeleteNote,
-} from './permissionRules';
+} from '../lib/permissionRules';
 
 const permissions = shield({
   Query: {

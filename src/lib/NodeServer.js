@@ -13,8 +13,7 @@ import { applyMiddleware } from 'graphql-middleware';
 import db from '../config/db';
 // import authMiddleWare from './authMiddleWare';
 import authRoutes from '../config/auth-routes';
-import permissions from './permission';
-import responseHandler from './responseHandler';
+import { permissions, responseHandler } from '../middlewares';
 
 export default class Server {
   constructor(config) {

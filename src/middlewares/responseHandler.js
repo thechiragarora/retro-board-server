@@ -3,7 +3,7 @@ import {
   AuthenticationError,
   ForbiddenError,
 } from 'apollo-server-express';
-import { createDynamicMiddleware } from './helper';
+import { createDynamicMiddleware } from '../lib/helper';
 
 const errorHandler = (result) => {
   let { message = 'Internal server error' } = result;
@@ -34,7 +34,7 @@ const errorHandler = (result) => {
 };
 
 const responseHandler = async (resolve, root, args, context, info) => {
-  console.log(info.operation.operation, info.fieldName, 'args:', args);
+  console.log(':::::::::::::::::::::::::::::', info.operation.operation, info.fieldName, 'args:', args);
   const result = await resolve(root, args, context, info);
   const { error } = result;
   //* * Handle Error */
@@ -42,7 +42,7 @@ const responseHandler = async (resolve, root, args, context, info) => {
     console.log('Error:', error);
     errorHandler(result);
   }
-  console.log('Output:', JSON.stringify(result));
+  console.log('::::::::::::::::::::::::::::: Output:', JSON.stringify(result));
   return result;
 };
 

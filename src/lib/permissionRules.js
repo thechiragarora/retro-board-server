@@ -42,7 +42,7 @@ const isUserDeleteNote = rule()(
     if (req.user.role !== 'user') return false;
     const result = await dbService.find({
       collection: Note,
-      data: { userId: req.user.id },
+      data: { user: req.user.id },
     });
     return true;
   },
@@ -54,7 +54,7 @@ const isAnonymousDeleteNote = rule()(
     if (req.user.role !== 'anonymous') return false;
     const result = await dbService.find({
       collection: Note,
-      data: { userId: req.user.id },
+      data: { user: req.user.id },
     });
     return true;
   },
@@ -66,7 +66,7 @@ const isUserUpdateNote = rule()(
     if (req.user.role !== 'user') return false;
     const result = await dbService.find({
       collection: Note,
-      data: { userId: req.user.id },
+      data: { user: req.user.id },
     });
     return true;
   },
@@ -78,7 +78,7 @@ const isAnonymousUpdateNote = rule()(
     if (req.user.role !== 'anonymous') return false;
     const result = await dbService.find({
       collection: Note,
-      data: { userId: req.user.id },
+      data: { user: req.user.id },
     });
     return true;
   },

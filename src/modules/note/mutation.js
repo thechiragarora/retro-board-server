@@ -6,7 +6,7 @@ import {
 
 const Mutation = {
   createNote: async (_, { input }, req) => {
-    const result = await dbService.create({ collection: Note, data: { ...input, userId: req.user.id } });
+    const result = await dbService.create({ collection: Note, data: { ...input, user: req.user.id } });
     pubsub.publish(noteCreated, { noteCreated: result });
 
     return result;

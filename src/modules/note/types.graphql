@@ -5,7 +5,7 @@ input NoteInput {
     dislikes: Int
     reply: String
     color: String
-    userId: ID!
+    user: ID!
 
 }
 type Note {
@@ -16,7 +16,7 @@ type Note {
     dislikes: Int
     reply: String
     color: String
-    userId: ID
+    user: ID
 }
 input InputNote {
     id: ID!

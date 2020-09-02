@@ -35,7 +35,7 @@ const noteSchema = new Schema({
     type: String,
     required: false,
   },
-  userId: {
+  user: {
     type: String,
     required: false,
   },

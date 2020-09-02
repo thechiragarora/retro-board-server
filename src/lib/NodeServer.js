@@ -14,6 +14,7 @@ import db from '../config/db';
 // import authMiddleWare from './authMiddleWare';
 import authRoutes from '../config/auth-routes';
 import permissions from './permission';
+import responseHandler from './responseHandler';
 
 export default class Server {
   constructor(config) {
@@ -62,7 +63,7 @@ export default class Server {
   }
 
   async setupApollo(data, typeDefs) {
-    const middleware = [permissions];
+    const middleware = [permissions, responseHandler];
     const schema = makeExecutableSchema({ typeDefs, ...data });
     const schemaWithMiddleware = applyMiddleware(schema, ...middleware);
 

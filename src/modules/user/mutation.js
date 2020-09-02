@@ -5,14 +5,12 @@ import jwtConfig from '../../config/jwtConfig';
 
 const Mutation = {
   userLogin: async (_, { input }) => {
-    console.log('::::::::::::::createUser::::::::::::Request', input);
     const password = 'password';
     const role = 'user';
     let user = await dbService.findOne({ collection: User, data: { ...input } });
     if (!user) {
       user = await dbService.create({ collection: User, data: { ...input, password, role } });
     }
-    console.log('::::::::::::::::createUser:::::::::::::Response', user);
     if (user) {
       const payload = {
         id: user.id,

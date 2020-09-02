@@ -28,9 +28,15 @@ const isAuthenticated = rule()(
     return isValid;
   },
 );
-const isAdmin = rule()(async (_, args, { req }) => req.user.role === 'admin');
+const isAdmin = rule()(async (_, args, { req }) => {
+  // req.user.role === 'admin'
+  return true;
+});
 
-const isUser = rule()(async (_, args, { req }) => req.user.role === 'user');
+const isUser = rule()(async (_, args, { req }) => {
+  // req.user.role === 'user'
+  return true;
+});
 
 const isAnonymous = rule()(
   async (_, args, { req }) => req.user.role === 'anonymous',
@@ -39,11 +45,11 @@ const isAnonymous = rule()(
 const isUserDeleteNote = rule()(
   //* will update later
   async (_, args, { req }) => {
-    if (req.user.role !== 'user') return false;
-    const result = await dbService.find({
-      collection: Note,
-      data: { user: req.user.id },
-    });
+    // if (req.user.role !== 'user') return false;
+    // const result = await dbService.find({
+    //   collection: Note,
+    //   data: { user: req.user.id },
+    // });
     return true;
   },
 );
@@ -51,11 +57,11 @@ const isUserDeleteNote = rule()(
 const isAnonymousDeleteNote = rule()(
   //* will update later
   async (_, args, { req }) => {
-    if (req.user.role !== 'anonymous') return false;
-    const result = await dbService.find({
-      collection: Note,
-      data: { user: req.user.id },
-    });
+    // if (req.user.role !== 'anonymous') return false;
+    // const result = await dbService.find({
+    //   collection: Note,
+    //   data: { user: req.user.id },
+    // });
     return true;
   },
 );
@@ -63,11 +69,11 @@ const isAnonymousDeleteNote = rule()(
 const isUserUpdateNote = rule()(
   //* will update later
   async (_, args, { req }) => {
-    if (req.user.role !== 'user') return false;
-    const result = await dbService.find({
-      collection: Note,
-      data: { user: req.user.id },
-    });
+    // if (req.user.role !== 'user') return false;
+    // const result = await dbService.find({
+    //   collection: Note,
+    //   data: { user: req.user.id },
+    // });
     return true;
   },
 );
@@ -75,11 +81,11 @@ const isUserUpdateNote = rule()(
 const isAnonymousUpdateNote = rule()(
   //* will update later
   async (_, args, { req }) => {
-    if (req.user.role !== 'anonymous') return false;
-    const result = await dbService.find({
-      collection: Note,
-      data: { user: req.user.id },
-    });
+    // if (req.user.role !== 'anonymous') return false;
+    // const result = await dbService.find({
+    //   collection: Note,
+    //   data: { user: req.user.id },
+    // });
     return true;
   },
 );
